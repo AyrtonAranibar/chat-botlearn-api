@@ -1,0 +1,20 @@
+# -------------------------------
+# Requerimientos del backend API
+# Proyecto: Chat-Botlearn
+# Framework: FastAPI
+# -------------------------------
+
+# Framework principal y servidor ASGI (incluye uvicorn, pydantic, starlette, etc.)
+fastapi[standard]
+
+# Cliente HTTP asíncrono para conectar con el modelo (vLLM o cualquier otro endpoint)
+httpx
+
+# Manejo de variables de entorno (.env)
+python-dotenv
+
+# Opcional (útiles para desarrollo futuro)
+websockets        # Si luego agregas streaming/chat en tiempo real
+pytest            # Si haces pruebas unitarias
+black             # Para formatear el código automáticamente
+rich              # Para logs coloridos y bonitos en consola
