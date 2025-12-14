@@ -8,7 +8,9 @@
 fastapi[standard]
 
 # Cliente HTTP asíncrono para conectar con el modelo (vLLM o cualquier otro endpoint)
-httpx
+httpx>=0.27
+# Stream
+aiohttp>=3.9
 
 # Manejo de variables de entorno (.env)
 python-dotenv

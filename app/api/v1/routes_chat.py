@@ -1,14 +1,40 @@
-# app/api/v1/routes_chat.py
 from fastapi import APIRouter
-from app.api.v1.schemas import ChatRequest, ChatResponse
-from app.services.chat_service import chat_service
+from fastapi.responses import StreamingResponse
+from app.clients.llm_client import llm_client
+from app.api.v1.schemas import ChatRequest
 
-router = APIRouter(prefix="/chat", tags=["chat"])
+
+router = APIRouter()
 
 
-@router.post("", response_model=ChatResponse)
-async def create_chat_completion(request: ChatRequest) -> ChatResponse:
-    """
-    Endpoint principal para hablar con el modelo.
-    """
-    return await chat_service.send_chat(request)
+# original
+@router.post("/chat/completions")
+async def chat_completion(request: ChatRequest):
+    return await llm_client.chat_completion(
+        messages=request.messages,
+        temperature=request.temperature,
+        max_tokens=request.max_tokens
+    )
+
+#  STREAMING
+@router.post("/chat/completions/stream")
+async def chat_stream(request: ChatRequest):
+
+    async def event_stream():
+        async for chunk in llm_client.chat_completion_stream(
+            messages=request.messages,
+            temperature=request.temperature,
+            max_tokens=request.max_tokens
+        ):
+            yield f"data: {chunk}\n\n"
+
+        yield "data: [DONE]\n\n"
+
+    return StreamingResponse(
+        event_stream(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+        },
+    )

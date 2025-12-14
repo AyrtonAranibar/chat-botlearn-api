@@ -7,7 +7,7 @@ PIP=$(VENV)/Scripts/pip
 
 # Activar entorno y ejecutar la app
 run:
-	$(VENV)/Scripts/uvicorn app.main:app --reload --port 8002
+	$(VENV)/Scripts/uvicorn app.main:app --reload --port 8002 --http h11
 
 
 # Instalar dependencias
