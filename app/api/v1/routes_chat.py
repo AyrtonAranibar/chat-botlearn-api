@@ -26,9 +26,8 @@ async def chat_stream(request: ChatRequest):
             temperature=request.temperature,
             max_tokens=request.max_tokens
         ):
-            yield f"data: {chunk}\n\n"
-
-        yield "data: [DONE]\n\n"
+            yield f"data: {chunk}*\n\n*"
+        yield "data: [DONE]*\n\n*"
 
     return StreamingResponse(
         event_stream(),

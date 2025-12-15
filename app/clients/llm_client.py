@@ -58,11 +58,12 @@ class LLMClient:
                 async for raw in resp.content:
                     line = raw.decode("utf-8")
 
+                    
                     if not line.startswith("data:"):
                         continue
 
                     data = line.replace("data:", "", 1)
-
+                    
                     if data.strip() == "[DONE]":
                         return
 
